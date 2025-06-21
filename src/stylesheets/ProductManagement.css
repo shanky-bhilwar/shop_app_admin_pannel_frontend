@@ -1,0 +1,417 @@
+/* Product Management - Matching Admin Dashboard Style */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Container */
+.pm-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2.5rem;
+  background: transparent;
+  position: relative;
+}
+
+/* Heading */
+.pm-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 3rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: slideInFromTop 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  text-align: center;
+  position: relative;
+}
+
+.pm-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  border-radius: 2px;
+}
+
+/* Grid Layout */
+.pm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Card Link */
+.pm-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pm-card-link:hover {
+  transform: translateY(-8px);
+}
+
+/* Card Styles */
+.pm-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: slideInFromBottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.pm-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.05) 50%, 
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.pm-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.pm-card:hover {
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.pm-card:hover::before {
+  opacity: 1;
+}
+
+.pm-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* Card Image */
+.pm-card__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 0;
+}
+
+.pm-card:hover .pm-card__image {
+  transform: scale(1.05);
+}
+
+/* Card Body */
+.pm-card__body {
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Card Title */
+.pm-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card Text */
+.pm-card__text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+
+.pm-card__text:last-child {
+  margin-bottom: 0;
+}
+
+.pm-card__text strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+/* Loading State */
+.pm-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.pm-loading-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Error State */
+.pm-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.pm-error-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  text-align: center;
+}
+
+/* Animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Staggered Animation for Cards */
+.pm-card:nth-child(1) { animation-delay: 0.1s; }
+.pm-card:nth-child(2) { animation-delay: 0.2s; }
+.pm-card:nth-child(3) { animation-delay: 0.3s; }
+.pm-card:nth-child(4) { animation-delay: 0.4s; }
+.pm-card:nth-child(5) { animation-delay: 0.5s; }
+.pm-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .pm-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .pm-container {
+    padding: 2rem;
+  }
+  
+  .pm-heading {
+    font-size: 2.5rem;
+  }
+  
+  .pm-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pm-container {
+    padding: 1.5rem;
+  }
+  
+  .pm-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .pm-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .pm-card__body {
+    padding: 1.5rem;
+  }
+  
+  .pm-card__title {
+    font-size: 1.25rem;
+  }
+  
+  .pm-card__text {
+    font-size: 0.85rem;
+  }
+  
+  .pm-card__image {
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pm-container {
+    padding: 1rem;
+  }
+  
+  .pm-heading {
+    font-size: 1.75rem;
+  }
+  
+  .pm-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pm-card__body {
+    padding: 1.25rem;
+  }
+  
+  .pm-card__title {
+    font-size: 1.125rem;
+  }
+  
+  .pm-card__image {
+    height: 140px;
+  }
+  
+  .pm-loading-text,
+  .pm-error-text {
+    font-size: 1rem;
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.pm-card-link:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 24px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .pm-card {
+    background: var(--gray-800);
+    border-color: var(--gray-700);
+  }
+  
+  .pm-card__title {
+    color: var(--white) !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--white) !important;
+  }
+  
+  .pm-heading {
+    color: var(--white) !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--white) !important;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .pm-card,
+  .pm-card-link,
+  .pm-card__image,
+  .pm-heading {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .pm-card:hover {
+    transform: none !important;
+  }
+  
+  .pm-card-link:hover {
+    transform: none !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .pm-container {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .pm-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  .pm-card__title,
+  .pm-heading {
+    color: black !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: black !important;
+  }
+  
+  .pm-card__text {
+    color: #333 !important;
+  }
+}

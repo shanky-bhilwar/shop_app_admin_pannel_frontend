@@ -1,0 +1,482 @@
+/* Modern Subscription Plans CSS - Purple Color Scheme */
+
+* {
+  box-sizing: border-box;
+}
+
+.create-plan-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Animated background particles */
+.create-plan-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(1deg); }
+  66% { transform: translateY(10px) rotate(-1deg); }
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header h1 {
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.3);
+  margin: 0;
+  position: relative;
+  letter-spacing: 1px;
+}
+
+.header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  border-radius: 2px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% { 
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    width: 60px;
+  }
+  100% { 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+    width: 80px;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% { width: 60px; }
+  50% { width: 120px; }
+}
+
+.edit-button {
+  background: rgba(139, 124, 246, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 124, 246, 0.3);
+  color: #a78bfa;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.edit-button:hover::before {
+  left: 100%;
+}
+
+.edit-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(139, 124, 246, 0.3);
+  background: rgba(139, 124, 246, 0.15);
+  border-color: rgba(139, 124, 246, 0.5);
+}
+
+.edit-button:active {
+  transform: translateY(0);
+}
+
+/* Form Styling */
+.sp-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.sp-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 124, 246, 0.05), rgba(118, 75, 162, 0.02));
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Input Styling */
+.sp-form input,
+.sp-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sp-form input::placeholder,
+.sp-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.sp-form input:focus,
+.sp-form textarea:focus {
+  outline: none;
+  border-color: #8b7cf6;
+  background: rgba(139, 124, 246, 0.1);
+  box-shadow: 0 0 0 2px rgba(139, 124, 246, 0.2);
+}
+
+.sp-form textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Submit Button */
+.sp-form button[type="submit"] {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #8b7cf6 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+}
+
+.sp-form button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
+}
+
+.sp-form button[type="submit"]:hover::before {
+  left: 100%;
+}
+
+.sp-form button[type="submit"]:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6b46c1 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(139, 124, 246, 0.4);
+}
+
+.sp-form button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(139, 124, 246, 0.3);
+}
+
+/* Modal Styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-box {
+  background: rgba(102, 126, 234, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 124, 246, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 350px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(139, 124, 246, 0.1);
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-box::before {
+  content: '✓';
+  font-size: 2rem;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #8b7cf6, #a78bfa);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(139, 124, 246, 0.4);
+}
+
+.modal-box h3 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.modal-box button {
+  background: linear-gradient(135deg, #8b7cf6 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-box button:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6b46c1 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(139, 124, 246, 0.4);
+}
+
+.modal-box button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .create-plan-container {
+    padding: 0.5rem;
+  }
+  
+  .header {
+    text-align: center;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sp-form {
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  .modal-box {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-plan-container {
+    padding: 0.25rem;
+  }
+  
+  .header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .sp-form {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .sp-form input,
+  .sp-form textarea {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+  
+  .edit-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading animation for form submission */
+.sp-form button[type="submit"]:disabled {
+  background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+  cursor: not-allowed;
+  position: relative;
+}
+
+.sp-form button[type="submit"]:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Focus ring for accessibility */
+.sp-form input:focus-visible,
+.sp-form textarea:focus-visible,
+.sp-form button:focus-visible,
+.edit-button:focus-visible,
+.modal-box button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .create-plan-container {
+    background: #000;
+  }
+  
+  .sp-form {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #fff;
+  }
+  
+  .sp-form input,
+  .sp-form textarea {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .create-plan-container::before {
+    animation: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .sp-form {
+    background: rgba(40, 44, 52, 0.95);
+    color: #e0e0e0;
+  }
+  
+  .sp-form input,
+  .sp-form textarea {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .modal-box {
+    background: rgba(40, 44, 52, 0.95);
+    color: #e0e0e0;
+  }
+}
