@@ -497,15 +497,17 @@ body {
 /* Mobile Menu Toggle (if you want to add a hamburger menu) */
 .mobile-menu-toggle {
   display: none;
-  position: fixed;
+  position: fixed;         /* Ensure it stays at the top */
   top: 1rem;
-  left: 1rem;
-  z-index: 1001;
+   right: 1rem;
+  left: auto; /* override left */
+  z-index: 1100;           /* Higher than sidebar */
   background: rgba(15, 23, 42, 0.9);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
   cursor: pointer;
   backdrop-filter: blur(10px);
 }
@@ -515,6 +517,7 @@ body {
     display: block;
   }
 }
+
 
 /* Scrollbar Styling */
 .dashboard-content::-webkit-scrollbar {

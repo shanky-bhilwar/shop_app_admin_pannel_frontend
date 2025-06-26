@@ -4,11 +4,12 @@ import '../stylesheets/UserManagement.css';
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState('all'); // "all" | "subscribed" | "non"
+  const [filter, setFilter] = useState('all'); // default to "all"
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
     async function fetchUsers() {
@@ -28,6 +29,24 @@ export default function UserManagement() {
     }
     fetchUsers();
   }, []);
+
+  // search functionality for user 
+  const handleSearch = async () => {
+  if (!searchKeyword.trim()) return;
+  try {
+    setLoading(true);
+    const res = await fetch(`https://shop-app-backend-gsx6.onrender.com/adminDashboard/search-users/${searchKeyword}`);
+    const data = await res.json();
+    setUsers(data.users || []);
+    setFilter('all');
+    setError('');
+  } catch (err) {
+    console.error('Search failed:', err);
+    setError('Search failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const openModal = (user) => {
     setSelectedUser(user);
@@ -57,11 +76,10 @@ export default function UserManagement() {
     }
   };
 
-  // Filter users based on subscriptionId presence
   const filteredUsers = users.filter((user) => {
     if (filter === 'subscribed') return Boolean(user.subscriptionId);
     if (filter === 'non') return !user.subscriptionId;
-    return true; // "all"
+    return true; // show all
   });
 
   return (
@@ -69,8 +87,27 @@ export default function UserManagement() {
       <div className="um-container">
         <h2 className="um-heading">User Management</h2>
 
-        {/* Toggle Filter (top-right) */}
+      {/* Search Bar */}
+<div className="um-search">
+  <input
+    type="text"
+    placeholder="Search by name, email, or mobile"
+    onChange={(e) => setSearchKeyword(e.target.value)}
+    className="um-search-input"
+  />
+  <button className="um-search-btn" onClick={handleSearch}>
+    Search
+  </button>
+</div>
+
+        {/* Filter Buttons */}
         <div className="um-filter">
+          <button
+            className={`um-filter-btn ${filter === 'all' ? 'active' : ''}`}
+            onClick={() => setFilter('all')}
+          >
+            All
+          </button>
           <button
             className={`um-filter-btn ${filter === 'subscribed' ? 'active' : ''}`}
             onClick={() => setFilter('subscribed')}
@@ -83,13 +120,6 @@ export default function UserManagement() {
           >
             Non‐Subscribed
           </button>
-          {/* Optional “All” button if needed: */}
-          {/* <button
-            className={`um-filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            All
-          </button> */}
         </div>
 
         {loading ? (
@@ -110,17 +140,17 @@ export default function UserManagement() {
                 key={user._id}
                 className={`um-row ${idx % 2 === 0 ? 'um-row--even' : 'um-row--odd'}`}
               >
-                <div className="um-cell">{user.name}</div>
-                <div className="um-cell">{user.mobileNumber}</div>
-                <div className="um-cell">
+                <div className="um-cell" data-label="Name">{user.name}</div>
+                <div className="um-cell" data-label="Mobile">{user.mobileNumber}</div>
+                <div className="um-cell" data-label="Location">
                   {[user.state, user.place, user.locality, user.pincode]
                     .filter(Boolean)
                     .join(', ')}
                 </div>
-                <div className="um-cell">
+                <div className="um-cell" data-label="Subscription">
                   {user.subscriptionId ? 'Active' : 'None'}
                 </div>
-                <div className="um-cell">
+                <div className="um-cell" data-label="Action">
                   <button className="um-btn-delete" onClick={() => openModal(user)}>
                     Delete
                   </button>

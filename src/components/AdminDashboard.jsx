@@ -6,11 +6,11 @@ export default function AdminDashboard() {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalShops, setTotalShops] = useState(0);
   const [totalSubscriptions, setTotalSubscriptions] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     async function fetchCounts() {
       try {
-        // Fetch users
         const userRes = await fetch("https://shop-app-backend-gsx6.onrender.com/adminDashboard/getalluser");
         const userData = await userRes.json();
         const users = userData.data || [];
@@ -22,7 +22,6 @@ export default function AdminDashboard() {
         }, 0);
         setTotalSubscriptions(subscribedCount);
 
-        // Fetch shops (shop response is directly an array)
         const shopRes = await fetch("https://shop-app-backend-gsx6.onrender.com/adminDashboard/getallshops");
         const shops = await shopRes.json();
 
@@ -38,41 +37,43 @@ export default function AdminDashboard() {
     fetchCounts();
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
+
   return (
     <div className="admin-dashboard">
-      <aside className="sidebar">
+      {/* Sidebar toggle button for small screens - top RIGHT corner */}
+      <button
+        className="mobile-menu-toggle"
+        onClick={toggleSidebar}
+        style={{ right: "1rem", left: "auto" }} // <-- Key fix here
+      >
+        ☰
+      </button>
+
+      {/* Sidebar with toggle class */}
+      <aside className={`sidebar ${isSidebarOpen ? "mobile-open" : ""}`}>
         <h2 className="sidebar__title">Admin Menu</h2>
         <nav className="sidebar__nav">
           <ul>
             <li>
-              <Link to="/admin/dashboard" className="sidebar__link">
-                Overview
-              </Link>
+              <Link to="/admin/dashboard" className="sidebar__link">Overview</Link>
             </li>
             <li>
-              <Link to="/admin/users" className="sidebar__link">
-                User Management
-              </Link>
+              <Link to="/admin/users" className="sidebar__link">User Management</Link>
             </li>
             <li>
-              <Link to="/admin/shops" className="sidebar__link">
-                Shop Management
-              </Link>
+              <Link to="/admin/shops" className="sidebar__link">Shop Management</Link>
             </li>
             <li>
-              <Link to="/admin/products" className="sidebar__link">
-                Product Management
-              </Link>
+              <Link to="/admin/products" className="sidebar__link">Product Management</Link>
             </li>
             <li>
-              <Link to="/admin/subscription-plans" className="sidebar__link">
-                Subscription Plans Management
-              </Link>
+              <Link to="/admin/subscription-plans" className="sidebar__link">Subscription Plans Management</Link>
             </li>
             <li>
-              <Link to="/admin/users/subscriptions/details" className="sidebar__link">
-                User Subscription Detailst
-              </Link>
+              <Link to="/admin/users/subscriptions/details" className="sidebar__link">User Subscription Details</Link>
             </li>
           </ul>
         </nav>

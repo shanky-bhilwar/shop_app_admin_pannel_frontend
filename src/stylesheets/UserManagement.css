@@ -348,29 +348,54 @@
   }
   
   .um-row {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .um-row:not(.um-header):hover {
-    transform: none;
+    display: block;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.1);
   }
   
   .um-header {
     display: none;
   }
   
+  .um-row--even,
+  .um-row--odd {
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  .um-row:not(.um-header):hover {
+    transform: none;
+  }
+  
+  .um-cell {
+    display: block;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+  }
+  
+  .um-cell:last-child {
+    border-bottom: none;
+    text-align: center;
+    padding-top: 1rem;
+  }
+  
   .um-cell::before {
-    content: attr(data-label);
+    content: attr(data-label) ": ";
     font-weight: 700;
     color: #667eea;
-    display: block;
-    margin-bottom: 0.3rem;
+    display: inline-block;
+    min-width: 100px;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+  }
+  
+  .um-cell[data-label="Action"]::before {
+    display: none;
   }
   
   .um-modal {
@@ -396,16 +421,25 @@
   }
   
   .um-row {
-    padding: 0.8rem;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
   }
   
   .um-cell {
     font-size: 0.85rem;
+    padding: 0.4rem 0;
+  }
+  
+  .um-cell::before {
+    min-width: 80px;
+    font-size: 0.75rem;
   }
   
   .um-btn-delete {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     font-size: 0.8rem;
+    width: 100%;
+    margin-top: 0.5rem;
   }
   
   .um-modal {
@@ -418,21 +452,6 @@
   
   .um-btn-confirm, .um-btn-cancel {
     width: 100%;
-  }
-}
-
-/* Enhanced Mobile Table Experience */
-@media (max-width: 768px) {
-  .um-row:not(.um-header) {
-    background: rgba(255, 255, 255, 0.9);
-    margin-bottom: 1rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(102, 126, 234, 0.1);
-  }
-  
-  .um-row--even, .um-row--odd {
-    background: rgba(255, 255, 255, 0.9);
   }
 }
 
@@ -477,4 +496,61 @@
   .um-modal-text {
     color: #b0b0b0;
   }
+  
+  @media (max-width: 768px) {
+    .um-row {
+      background: rgba(40, 44, 52, 0.95);
+      color: #e0e0e0;
+    }
+    
+    .um-row--even,
+    .um-row--odd {
+      background: rgba(40, 44, 52, 0.95);
+    }
+    
+    .um-cell {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.um-search {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2; /* Ensure it's above the blur layer */
+}
+
+.um-search-input {
+  padding: 0.75rem 1.2rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  width: 300px;
+  background: #ffffff; /* Solid background to prevent blur */
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.um-search-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.um-search-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.um-search-btn:hover {
+  background: linear-gradient(135deg, #1d30d8, #b3afba);
 }
