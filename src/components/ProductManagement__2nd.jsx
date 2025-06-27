@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../stylesheets/ProductManagement__2nd.css';
 import AdminLayout from './AdminLayout';
+import { Search } from 'lucide-react';
 
 const ProductManagement__2nd = () => {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
 
@@ -43,27 +46,57 @@ const ProductManagement__2nd = () => {
     }
   };
 
+  const handleSearch = () => {
+    setSearchQuery(searchTerm.trim());
+  };
+
+  const filteredProducts = products.filter(product =>
+    product.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <AdminLayout>
       <div className="products-container">
         <div className="products-header">
-          <h2>Product Management</h2>
-          <p>Manage shop's products</p>
+          <h2 style={{ color:"white" }}>Product Management</h2>
+          <p style={{ color:"whitesmoke" }}>Manage shop's products</p>
+          <Link to="/admin/products" className="back-button">
+            ← Back
+          </Link>
         </div>
-        
-        {products.length === 0 ? (
+
+        {/* Search Bar */}
+        <div className="usd-search-container" style={{ marginTop: '20px', marginBottom: '24px' }}>
+          <div className="usd-search-bar" style={{ display: 'flex', gap: '12px' }}>
+            <div className="usd-search-input-container">
+              <input
+                type="text"
+                placeholder="Search by product name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="usd-search-input"
+              />
+              <Search className="usd-search-icon" size={20} />
+            </div>
+            <button onClick={handleSearch} className="btn btn-confirm" style={{ height: '40px' }}>
+              Search
+            </button>
+          </div>
+        </div>
+
+        {filteredProducts.length === 0 ? (
           <div className="no-products">
-            <p>No products found for this shop.</p>
+            <p>No matching products found.</p>
           </div>
         ) : (
           <div className="products-grid">
-            {products.map(product => (
+            {filteredProducts.map(product => (
               <div key={product._id} className="product-card">
                 <div className="product-image-container">
-                  <img 
-                    src={product.productImage} 
-                    alt={product.name} 
-                    className="product-image" 
+                  <img
+                    src={product.productImage}
+                    alt={product.name}
+                    className="product-image"
                   />
                 </div>
                 <div className="product-content">
@@ -71,8 +104,8 @@ const ProductManagement__2nd = () => {
                   <p className="product-description">{product.description}</p>
                   <div className="product-price">₹{product.price}</div>
                 </div>
-                <button 
-                  className="delete-button" 
+                <button
+                  className="delete-button"
                   onClick={() => openDeleteModal(product._id)}
                 >
                   DELETE PRODUCT

@@ -548,3 +548,24 @@
     border: 1px solid #e5e7eb;
   }
 }
+
+.usd-plan-label {
+  font-weight: 600;
+  color: #5c5c5c;
+  margin-right: 6px;
+}
+
+.usd-plan-name {
+  color: #3a7bd5; /* soft blue */
+  font-weight: 600;
+}
+
+.usd-plan-amount {
+  color: #28a745; /* green for money */
+  font-weight: 600;
+}
+
+.usd-plan-duration {
+  color: #e08e0b; /* warm orange for days */
+  font-weight: 600;
+}

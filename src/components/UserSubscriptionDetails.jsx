@@ -147,6 +147,25 @@ export default function UserSubscriptionDetails() {
                   {sub ? (
                     <div className="usd-subscription-section">
                       <div className={`usd-plan-badge ${getPlanColor(sub.plan)}`}><Crown size={16} />{sub.plan} Plan</div>
+                     
+                      {/* ✅ Subscription Plan Details Inserted Here */}
+                    <div className="usd-info-item">
+                        <span className="usd-info-text"><strong>Plan:</strong> {sub.subscriptionPlanDetails?.name || 'N/A'}</span>
+                      </div>
+                      <div className="usd-info-item">
+                        <span className="usd-info-text"><strong>Amount:</strong> ₹{sub.amount}</span>
+                      </div>
+                      <div className="usd-info-item">
+                        <span className="usd-info-text"><strong>Duration:</strong> {sub.durationDays} days</span>
+                     </div>
+                       {/* ✅ End of inserted fields */}
+                     
+                       {/* Separator Line */}
+
+                  <hr className="usd-section-divider" style={{ margin: '12px 0' }} />
+
+                        {/* Start & End Dates Section */}
+
                       <div className="usd-dates-grid">
                         <div className="usd-date-item"><Calendar className="usd-icon" size={16} /><div><p className="usd-date-label">Start Date</p><p className="usd-date-value">{new Date(sub.startDate).toLocaleDateString()}</p></div></div>
                         <div className="usd-date-item"><Calendar className="usd-icon" size={16} /><div><p className="usd-date-label">End Date</p><p className={`usd-date-value ${active ? 'active-date' : 'expired-date'}`}>{new Date(sub.endDate).toLocaleDateString()}</p></div></div>

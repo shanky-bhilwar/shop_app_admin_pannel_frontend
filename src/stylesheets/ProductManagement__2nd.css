@@ -22,6 +22,75 @@
   font-size: 1rem;
 }
 
+/* Back button */
+.back-button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Search bar container */
+.usd-search-container {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 24px;
+}
+
+.usd-search-bar {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Search input wrapper */
+.usd-search-input-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Search input */
+.usd-search-input {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.usd-search-input:focus {
+  border-color: #007bff;
+}
+
+/* Search icon */
+.usd-search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
 /* No products message */
 .no-products {
   text-align: center;
@@ -209,6 +278,9 @@
 .btn-confirm {
   background: #ef4444;
   color: white;
+  border: none;
+  box-shadow: none;
+  border-radius: 0 8px 8px 0;
 }
 
 .btn-confirm:hover {
@@ -220,29 +292,29 @@
   .products-container {
     padding: 1rem;
   }
-  
+
   .products-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .product-card {
     max-width: 100%;
   }
-  
+
   .products-header h2 {
     font-size: 1.5rem;
   }
-  
+
   .modal-content {
     margin: 1rem;
     padding: 1.5rem;
   }
-  
+
   .modal-buttons {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
   }
@@ -252,11 +324,11 @@
   .product-image {
     height: 6rem;
   }
-  
+
   .product-name {
     font-size: 1rem;
   }
-  
+
   .product-price {
     font-size: 1.25rem;
   }
