@@ -4,7 +4,7 @@ import '../stylesheets/UserManagement.css';
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState('all'); // default to "all"
+  const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -14,8 +14,14 @@ export default function UserManagement() {
   useEffect(() => {
     async function fetchUsers() {
       try {
+        const token = localStorage.getItem('adminToken');
         const res = await fetch(
-          'https://shop-app-backend-gsx6.onrender.com/adminDashboard/getalluser'
+          `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getalluser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (!res.ok) throw new Error('Failed to fetch users');
         const data = await res.json();
@@ -30,23 +36,30 @@ export default function UserManagement() {
     fetchUsers();
   }, []);
 
-  // search functionality for user 
   const handleSearch = async () => {
-  if (!searchKeyword.trim()) return;
-  try {
-    setLoading(true);
-    const res = await fetch(`https://shop-app-backend-gsx6.onrender.com/adminDashboard/search-users/${searchKeyword}`);
-    const data = await res.json();
-    setUsers(data.users || []);
-    setFilter('all');
-    setError('');
-  } catch (err) {
-    console.error('Search failed:', err);
-    setError('Search failed');
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!searchKeyword.trim()) return;
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/search-users/${searchKeyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setUsers(data.users || []);
+      setFilter('all');
+      setError('');
+    } catch (err) {
+      console.error('Search failed:', err);
+      setError('Search failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openModal = (user) => {
     setSelectedUser(user);
@@ -61,9 +74,15 @@ export default function UserManagement() {
   const handleDelete = async () => {
     if (!selectedUser) return;
     try {
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(
-        `https://shop-app-backend-gsx6.onrender.com/adminDashboard/deleteuser/${selectedUser._id}`,
-        { method: 'DELETE' }
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/deleteuser/${selectedUser._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (!res.ok) throw new Error('Failed to delete user');
 
@@ -79,7 +98,7 @@ export default function UserManagement() {
   const filteredUsers = users.filter((user) => {
     if (filter === 'subscribed') return Boolean(user.subscriptionId);
     if (filter === 'non') return !user.subscriptionId;
-    return true; // show all
+    return true;
   });
 
   return (
@@ -87,18 +106,18 @@ export default function UserManagement() {
       <div className="um-container">
         <h2 className="um-heading">User Management</h2>
 
-      {/* Search Bar */}
-<div className="um-search">
-  <input
-    type="text"
-    placeholder="Search by name, email, or mobile"
-    onChange={(e) => setSearchKeyword(e.target.value)}
-    className="um-search-input"
-  />
-  <button className="um-search-btn" onClick={handleSearch}>
-    Search
-  </button>
-</div>
+        {/* Search Bar */}
+        <div className="um-search">
+          <input
+            type="text"
+            placeholder="Search by name, email, or mobile"
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            className="um-search-input"
+          />
+          <button className="um-search-btn" onClick={handleSearch}>
+            Search
+          </button>
+        </div>
 
         {/* Filter Buttons */}
         <div className="um-filter">

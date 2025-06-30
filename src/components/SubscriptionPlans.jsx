@@ -18,7 +18,7 @@ export default function SubscriptionPlans() {
 
     try {
       const res = await fetch(
-        'https://shop-app-backend-gsx6.onrender.com/api/subscription-plans/createplan',
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/subscription-plans/createplan`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

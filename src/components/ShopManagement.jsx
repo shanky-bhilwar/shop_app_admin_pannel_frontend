@@ -1,4 +1,3 @@
-// src/components/ShopManagement.jsx
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './AdminLayout';
 import '../stylesheets/UserManagement.css';
@@ -11,16 +10,20 @@ export default function ShopManagement() {
   const [selectedShop, setSelectedShop] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState('');
 
-
   useEffect(() => {
     async function fetchShops() {
       try {
+        const token = localStorage.getItem('adminToken');
         const res = await fetch(
-          'https://shop-app-backend-gsx6.onrender.com/adminDashboard/getallshops'
+          `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getallshops`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (!res.ok) throw new Error('Failed to fetch shops');
         const data = await res.json();
-        // response is an array of shop objects
         setShops(data || []);
       } catch (err) {
         console.error('Error fetching shops:', err);
@@ -33,41 +36,60 @@ export default function ShopManagement() {
     fetchShops();
   }, []);
 
-  // search shop function 
   const handleSearch = async () => {
-  if (!searchKeyword.trim()) return;
-  try {
-    setLoading(true);
-    const res = await fetch(`https://shop-app-backend-gsx6.onrender.com/adminDashboard/search-shop/${searchKeyword}`);
-    const data = await res.json();
-    setShops(data.shops || []);
-    setError('');
-  } catch (err) {
-    console.error('Search failed:', err);
-    setError('Search failed');
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!searchKeyword.trim()) return;
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/search-shop/${searchKeyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setShops(data.shops || []);
+      setError('');
+    } catch (err) {
+      console.error('Search failed:', err);
+      setError('Search failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // function to change ban or active status of shop
   const handleToggleBan = async (shopId) => {
-  try {
-    const res = await fetch(`https://shop-app-backend-gsx6.onrender.com/adminDashboard/change-shop-ban-status/${shopId}`, {
-      method: 'PUT',
-    });
-    if (!res.ok) throw new Error('Failed to toggle ban status');
-    
-    // ✅ Safest: Refetch all shops to get latest isBanned value
-    const refetch = await fetch('https://shop-app-backend-gsx6.onrender.com/adminDashboard/getallshops');
-    const freshData = await refetch.json();
-    setShops(freshData || []);
+    try {
+      const token = localStorage.getItem('adminToken');
 
-  } catch (err) {
-    console.error('Toggle ban failed:', err);
-    setError('Toggle ban failed');
-  }
-};
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/change-shop-ban-status/${shopId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error('Failed to toggle ban status');
+
+      const refetch = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getallshops`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const freshData = await refetch.json();
+      setShops(freshData || []);
+    } catch (err) {
+      console.error('Toggle ban failed:', err);
+      setError('Toggle ban failed');
+    }
+  };
 
   const openModal = (shop) => {
     setSelectedShop(shop);
@@ -82,13 +104,18 @@ export default function ShopManagement() {
   const handleDelete = async () => {
     if (!selectedShop) return;
     try {
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(
-        `https://shop-app-backend-gsx6.onrender.com/api/shops/${selectedShop._id}`,
-        { method: 'DELETE' }
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/delete-shopById/${selectedShop._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (!res.ok) throw new Error('Failed to delete shop');
 
-      // Remove the deleted shop from state
       setShops((prev) => prev.filter((s) => s._id !== selectedShop._id));
       closeModal();
     } catch (err) {
@@ -103,20 +130,16 @@ export default function ShopManagement() {
       <div className="um-container">
         <h2 className="um-heading">Shop Management</h2>
 
-        {/* search bar */}
-
         <div className="um-search">
-  <input
-    type="text"
-    placeholder="Search by shop name, email, or mobile"
-    value={searchKeyword}
-    onChange={(e) => setSearchKeyword(e.target.value)}
-    className="um-search-input"
-  />
-  <button className="um-search-btn" onClick={handleSearch}>Search</button>
-  
-</div>
-
+          <input
+            type="text"
+            placeholder="Search by shop name, email, mobile"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            className="um-search-input"
+          />
+          <button className="um-search-btn" onClick={handleSearch}>Search</button>
+        </div>
 
         {loading ? (
           <div className="um-loading">Loading shops...</div>
@@ -137,26 +160,29 @@ export default function ShopManagement() {
                 className={`um-row ${idx % 2 === 0 ? 'um-row--even' : 'um-row--odd'}`}
               >
                 <div className="um-cell" data-label="Shop Name">{shop.shopName}</div>
-                <div className="um-cell" data-label="Category">{Array.isArray(shop.category) ? shop.category.join(', ') : shop.category}</div>
+                <div className="um-cell" data-label="Category">
+                  {Array.isArray(shop.category)
+                    ? shop.category.join(', ')
+                    : shop.category}
+                </div>
                 <div className="um-cell" data-label="Location">
                   {[shop.state, shop.place, shop.locality, shop.pinCode || shop.pincode]
                     .filter(Boolean)
                     .join(', ')}
                 </div>
                 <div className="um-cell" data-label="Status">
-                <button
-                  className="um-btn-delete"
-                  onClick={() => handleToggleBan(shop._id)}
-                  style={{
-                    background: shop.isBanned === true
-                      ? 'linear-gradient(135deg, #f39c12, #e67e22)' // Banned → Orange
-                      : 'linear-gradient(135deg, #2ecc71, #27ae60)' // Active → Green
-                  }}
-                >
-                  {shop.isBanned === true ? 'Ban' : 'Active'}
-                </button>
+                  <button
+                    className="um-btn-delete"
+                    onClick={() => handleToggleBan(shop._id)}
+                    style={{
+                      background: shop.isBanned === true
+                        ? 'linear-gradient(135deg, #f39c12, #e67e22)'
+                        : 'linear-gradient(135deg, #2ecc71, #27ae60)'
+                    }}
+                  >
+                    {shop.isBanned === true ? 'Ban' : 'Active'}
+                  </button>
                 </div>
-
                 <div className="um-cell" data-label="Action">
                   <button className="um-btn-delete" onClick={() => openModal(shop)}>
                     Delete
@@ -175,7 +201,7 @@ export default function ShopManagement() {
                 Are you sure you want to delete shop "{selectedShop.shopName}"?
               </p>
               <div className="um-modal-actions">
-                 <button className="um-btn-confirm" onClick={handleDelete}>
+                <button className="um-btn-confirm" onClick={handleDelete}>
                   OK
                 </button>
                 <button className="um-btn-cancel" onClick={closeModal}>

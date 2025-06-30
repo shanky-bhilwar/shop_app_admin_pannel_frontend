@@ -21,7 +21,7 @@ export default function AdminLogin() {
     const payload = { email, mobileNumber, password };
 
     try {
-      const res = await fetch('https://shop-app-backend-gsx6.onrender.com/auth/admin/login', {
+      const res = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/auth/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -43,8 +43,8 @@ export default function AdminLogin() {
       // ✅ Save token to localStorage
       localStorage.setItem('adminToken', data.token);
 
-      // ✅ Example usage: send token in future API request (can be reused elsewhere)
-      const protectedRes = await fetch('https://shop-app-backend-gsx6.onrender.com/admin/protected-data', {
+      // ✅ Example usage how the protected routes are made with  jwt token- just example to test: send token in future API request (can be reused elsewhere)
+      const protectedRes = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/admin/protected-data`, {
         headers: {
           'Authorization': `Bearer ${data.token}`,
           'Content-Type': 'application/json',

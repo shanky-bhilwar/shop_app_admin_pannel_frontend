@@ -50,20 +50,27 @@
   margin-bottom: 24px;
 }
 
+/* Search bar flex behavior */
 .usd-search-bar {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 }
 
-/* Search input wrapper */
+/* Ensure input grows, button stays its size */
 .usd-search-input-container {
   position: relative;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+.usd-search-bar .btn {
+  flex: 0 0 auto;
 }
 
 /* Search input */
@@ -331,5 +338,22 @@
 
   .product-price {
     font-size: 1.25rem;
+  }
+}
+
+/* Mobile stack for search */
+@media (max-width: 768px) {
+  .usd-search-bar {
+    flex-direction: column;
+  }
+
+  .usd-search-input-container,
+  .usd-search-bar .btn {
+    width: 100%;
+  }
+
+  .usd-search-bar .btn {
+    height: 44px;
+    border-radius: 8px;
   }
 }

@@ -11,10 +11,18 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchCounts() {
       try {
-        const userRes = await fetch("https://shop-app-backend-gsx6.onrender.com/adminDashboard/getalluser");
+        const token = localStorage.getItem("adminToken");
+
+        const userRes = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getalluser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const userData = await userRes.json();
         const users = userData.data || [];
-
         setTotalUsers(users.length);
 
         const subscribedCount = users.reduce((count, user) => {
@@ -22,9 +30,15 @@ export default function AdminDashboard() {
         }, 0);
         setTotalSubscriptions(subscribedCount);
 
-        const shopRes = await fetch("https://shop-app-backend-gsx6.onrender.com/adminDashboard/getallshops");
+        const shopRes = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getallshops`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const shops = await shopRes.json();
-
         setTotalShops(shops.length);
       } catch (err) {
         console.error("Error fetching dashboard counts:", err);
@@ -38,7 +52,7 @@ export default function AdminDashboard() {
   }, []);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(prev => !prev);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   return (
@@ -47,7 +61,7 @@ export default function AdminDashboard() {
       <button
         className="mobile-menu-toggle"
         onClick={toggleSidebar}
-        style={{ right: "1rem", left: "auto" }} // <-- Key fix here
+        style={{ right: "1rem", left: "auto" }}
       >
         ☰
       </button>

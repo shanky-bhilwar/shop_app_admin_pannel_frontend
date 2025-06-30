@@ -15,8 +15,8 @@ export default function UserSubscriptionDetails() {
       try {
         const token = localStorage.getItem('adminToken');
         const [userRes, subRes] = await Promise.all([
-          fetch('https://shop-app-backend-gsx6.onrender.com/adminDashboard/getalluser', { headers: { Authorization: `Bearer ${token}` } }),
-          fetch('https://shop-app-backend-gsx6.onrender.com/adminDashboard/getallsubscription', { headers: { Authorization: `Bearer ${token}` } })
+          fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getalluser`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/getallsubscription`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
 
         const userData = await userRes.json();

@@ -13,7 +13,13 @@ const ProductManagement__2nd = () => {
   const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
-    fetch(`https://shop-app-backend-gsx6.onrender.com/api/products/by-shopId/${id}`)
+    const token = localStorage.getItem('adminToken');
+
+    fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/get-product-by-shopId/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => res.json())
       .then(data => setProducts(data.products || []))
       .catch(console.error);
@@ -31,8 +37,13 @@ const ProductManagement__2nd = () => {
 
   const confirmDelete = async () => {
     try {
-      const res = await fetch(`https://shop-app-backend-gsx6.onrender.com/api/products/${productToDelete}`, {
+      const token = localStorage.getItem('adminToken');
+
+      const res = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/delete-product/${productToDelete}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       if (res.ok) {
@@ -58,16 +69,16 @@ const ProductManagement__2nd = () => {
     <AdminLayout>
       <div className="products-container">
         <div className="products-header">
-          <h2 style={{ color:"white" }}>Product Management</h2>
-          <p style={{ color:"whitesmoke" }}>Manage shop's products</p>
-          <Link to="/admin/products" className="back-button">
+          <h2 style={{ color: "white" }}>Product Management</h2>
+          <p style={{ color: "whitesmoke" }}>Manage shop's products</p>
+          <Link to="/admin/products" className="back-button" style={{ marginTop: '40px' }}>
             ← Back
           </Link>
         </div>
 
         {/* Search Bar */}
         <div className="usd-search-container" style={{ marginTop: '20px', marginBottom: '24px' }}>
-          <div className="usd-search-bar" style={{ display: 'flex', gap: '12px' }}>
+          <div className="usd-search-bar">
             <div className="usd-search-input-container">
               <input
                 type="text"
@@ -78,7 +89,7 @@ const ProductManagement__2nd = () => {
               />
               <Search className="usd-search-icon" size={20} />
             </div>
-            <button onClick={handleSearch} className="btn btn-confirm" style={{ height: '40px' }}>
+            <button onClick={handleSearch} className="btn btn-confirm">
               Search
             </button>
           </div>

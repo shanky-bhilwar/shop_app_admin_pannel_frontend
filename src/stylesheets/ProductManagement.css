@@ -415,3 +415,45 @@
     color: #333 !important;
   }
 }
+
+/* SEARCH BAR STYLE - same as Shop Management */
+.pm-search {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.pm-search-input {
+  padding: 0.75rem 1.2rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  width: 300px;
+  background: #ffffff;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.pm-search-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.pm-search-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pm-search-btn:hover {
+  background: linear-gradient(135deg, #1d30d8, #b3afba);
+}
