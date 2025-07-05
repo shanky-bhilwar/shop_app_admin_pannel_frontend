@@ -17,11 +17,16 @@ export default function SubscriptionPlans() {
     };
 
     try {
+      const token = localStorage.getItem("adminToken"); // ✅ added token from localStorage
+
       const res = await fetch(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/subscription-plans/createplan`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/adminDashboard/createplan`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // ✅ attach token here
+          },
           body: JSON.stringify(payload),
         }
       );
